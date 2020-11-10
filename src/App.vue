@@ -37,6 +37,7 @@
     </div>
   </transition>
 
+  <div class="small-media-warning"> Bu çalışma spesifik olarak büyük bilgilendirme ekranları için tasarlanmıştır. Lütfen daha büyük bir ekranda tekrar deneyin.</div>
 
     <vue-particles v-if="particlesShown" :style="bgColor[selectedBackground]" class="particles-container"
       color="#dedede"
@@ -305,6 +306,36 @@ export default {
   --world-map-override-background2: repeating-linear-gradient(216deg, rgba(0,0,0, 0.51) 0px, rgba(0,0,0, 0.51) 19px,transparent 19px, transparent 22px),repeating-linear-gradient(135deg, rgba(0,0,0, 0.51) 0px, rgba(0,0,0, 0.51) 19px,transparent 19px, transparent 22px),repeating-linear-gradient(338deg, rgba(0,0,0, 0.51) 0px, rgba(0,0,0, 0.51) 19px,transparent 19px, transparent 22px),linear-gradient(90deg, rgba(5,15,123, 0.46),rgba(0,0,0, 0.51));
   
 }
+
+
+.small-media-warning {
+  display: none;
+}
+
+@media only screen and (max-width: 1100px) {
+  .small-media-warning {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 99;
+    padding: 2rem;
+
+    background-image:radial-gradient(circle at center center, transparent,rgb(33,33,33)),repeating-linear-gradient(135deg, rgb(33,33,33) 0px, rgb(33,33,33) 2px,transparent 2px, transparent 10px,rgb(33,33,33) 10px, rgb(33,33,33) 11px,transparent 11px, transparent 21px),repeating-linear-gradient(45deg, rgb(47,47,47) 0px, rgb(47,47,47) 4px,transparent 4px, transparent 8px),linear-gradient(90deg, rgb(33,33,33),rgb(33,33,33));
+
+
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size: 3rem;
+    line-height:3.2rem;
+    color: white;
+  }
+}
+
 
 * {
   margin: 0;
