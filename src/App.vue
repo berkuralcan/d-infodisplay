@@ -256,7 +256,7 @@ export default {
       getNow: function() {
           const today = new Date();
           const date = today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
-          const time = today.getHours() + ":" + this.zeroPadding(today.getMinutes(), 2) + ":" + this.zeroPadding(today.getSeconds(), 2);
+          const time = this.zeroPadding(today.getHours(), 2) + ":" + this.zeroPadding(today.getMinutes(), 2) + ":" + this.zeroPadding(today.getSeconds(), 2);
           this.dateTime.time = time;
           this.dateTime.date = date
       },
