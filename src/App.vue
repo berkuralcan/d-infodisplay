@@ -41,7 +41,7 @@
 
     <vue-particles v-if="particlesShown" :style="bgColor[selectedBackground]" class="particles-container"
       color="#dedede"
-      :particleOpacity="0.2"
+      :particleOpacity="0.4"
       :particlesNumber="65"
       shapeType="polygon"
       :particleSize="2"
@@ -50,10 +50,10 @@
       :lineLinked="true"
       :lineOpacity="0.4"
       :linesDistance="160"
-      :moveSpeed="2">  
+      :moveSpeed="4">  
     </vue-particles>
 
-    <div class="content-container">
+    <div v-if="isShowingDashboard" class="content-container">
       <div class="date-time">
         <div class="date">{{dateTime.date}}</div>
          <div class="time">{{dateTime.time}}</div>
@@ -66,8 +66,10 @@
 
 
 
-      <div @dblclick="isEditingBox1 = true" class="reg-grid-item item-1">
-        <img src="./assets/icons/ac-unit.png" alt="" class="reg-grid-item__icon">
+      <div @dblclick="isEditingBox1 = true" 
+            class="reg-grid-item item-1"
+            :class="isColoredModeActive ? 'bg-color-4' : 'bg-pale-1'">
+        <img src="./assets/icons/ac.gif" alt="" class="reg-grid-item__icon">
         <div class="reg-grid-item__title">{{stats.box1.title}}</div>
         
         <div v-if="!isEditingBox1" class="reg-grid-item__content"> {{stats.box1.content}} </div>
@@ -88,16 +90,20 @@
       
       
       
-      <div @click="updateInfoShown=true" class="reg-grid-item item-2 interactive">
+      <div @click="updateInfoShown=true" v-if="!isChartActive" class="reg-grid-item item-2 interactive"
+      :class="isColoredModeActive ? 'bg-color-7' : 'bg-pale-1'">
           <div class="reg-grid-item__title-sm">{{stats.box2.title}}</div>
             <span style="font-size: 13rem" class="material-icons"> update </span>
             <div class="reg-grid-item__content"> {{stats.box2.content}} </div>
             <div class="reg-grid-item__explanation"> {{stats.box2.explanation}} </div>
       </div>
+
+      <chart class="item-chart" v-else></chart>
       
 
 
-      <div class="reg-grid-item item-3" @dblclick="isEditingBox3 = true">
+      <div class="reg-grid-item item-3" @dblclick="isEditingBox3 = true"
+      :class="isColoredModeActive ? 'bg-color-1' : 'bg-pale-1'">
         <img src="./assets/icons/energy.png" alt="" class="long-grid-item__icon">
         <div class="long-grid-item__title">{{stats.box3.title}}</div>
         <div v-if="!isEditingBox3" class="long-grid-item__content"> {{stats.box3.content}} </div>
@@ -116,7 +122,8 @@
 
 
 
-      <div class="reg-grid-item item-6" @dblclick="isEditingBox6 = true">
+      <div class="reg-grid-item item-6" @dblclick="isEditingBox6 = true"
+      :class="isColoredModeActive ? 'bg-color-2' : 'bg-pale-1'">
         <img src="./assets/icons/project.png" alt="" class="long-grid-item__icon">
         <div class="long-grid-item__title">{{stats.box6.title}}</div>
         <div v-if="!isEditingBox6" class="long-grid-item__content"> {{stats.box6.content}} </div>
@@ -132,17 +139,36 @@
         <div class="long-grid-item__explanation"> {{stats.box6.explanation}} </div>
       </div>
 
-
-      <div class="small-grid-item item-4 interactive" @click="incrementBackground">
-        <div class="action-grid">Arka Plan Alternatifleri - Alternatif {{selectedBackground}}</div>
+      <div class="row-three-switches">
+        <div class="item-4 interactive" @click="activateWebView"
+         :class="isColoredModeActive ? 'bg-color-3' : 'bg-pale-2'">
+          <div class="action-grid">Web Sitesi</div>
+        </div>
+        <div class="item-4 interactive" @click="activatePresentation"
+        :class="isColoredModeActive ? 'bg-color-7' : 'bg-pale-3'">
+          <div class="action-grid">Sunum</div>
+        </div>
       </div>
 
-      <div class="small-grid-item item-5 interactive" @click="particlesShown = !particlesShown">
-            <div class="action-grid">Arka Plan Animasyonu Ekle / Kaldır</div>
+      <div class="row-three-switches-bottom">
+        <div class="small-grid-item item-4 interactive" @click="particlesShown = !particlesShown"
+        :class="isColoredModeActive ? 'bg-color-6' : 'bg-pale-3'">
+              <div class="action-grid"> Animasyon </div>
+          </div>
+        <div class="item-4 interactive" @click="isColoredModeActive = !isColoredModeActive"
+        :class="isColoredModeActive ? 'bg-color-5' : 'bg-pale-2'">
+          <div class="action-grid">Renk</div>
         </div>
+      </div>
       
       <div class="wip-explanation">
         Bu kısım şu anda bilinçli olarak boş. Burası ekran boyutuna göre üst kısımla eş olarak boş kalabilir veya yine ekran boyutuna göre burada da modüller kullanılabilir.
+      </div>
+
+      <div class="single-row-two-column interactive"
+      :class="isColoredModeActive ? 'bg-color-4' : 'bg-pale-3'"
+      @click="isChartActive = !isChartActive">
+        Grafik (wip)
       </div>
       
       <transition
@@ -157,12 +183,21 @@
 
 
       </div>
+      
+      <div v-else class="alternative-containers">
+        <component :is="selectedComponent"> </component>
+      </div>
+
 </div>
 </template>
 
 <script>
 
 import UpdateInfo from "./components/UpdateInfo.vue"
+import WebView from "./components/WebView.vue"
+import PDFView from "./components/PDFView.vue"
+import Chart from "./components/Chart.vue"
+
 
 export default {
 
@@ -170,6 +205,13 @@ export default {
 
   data() { 
     return {
+
+      isShowingDashboard: true,
+      isColoredModeActive: false,
+      selectedComponent: PDFView,
+      isChartActive: false,
+
+
       bgColor: { 
         "1": {backgroundImage: "radial-gradient(circle at center center, transparent,rgb(33,33,33)),repeating-linear-gradient(135deg, rgb(33,33,33) 0px, rgb(33,33,33) 2px,transparent 2px, transparent 10px,rgb(33,33,33) 10px, rgb(33,33,33) 11px,transparent 11px, transparent 21px),repeating-linear-gradient(45deg, rgb(47,47,47) 0px, rgb(47,47,47) 4px,transparent 4px, transparent 8px),linear-gradient(90deg, rgb(33,33,33),rgb(33,33,33))", backgroundPosition: "right"},
         "2": {backgroundImage: "url('https://www.highreshdwallpapers.com/wp-content/uploads/2012/06/City-Skyscraper-Wallpaper.jpg')", backgroundRepeat: "no-repeat"},
@@ -186,7 +228,7 @@ export default {
       isEditingBox3: false,
       isEditingBox6: false,
       isNoticeDismissed: false,
-      selectedBackground: 1,
+      selectedBackground: 6,
       updateInfoShown: false,
 
       dateTime: {
@@ -229,7 +271,10 @@ export default {
       }  
     },
     components: {
-      "update-info": UpdateInfo
+      "update-info": UpdateInfo,
+      "web-view": WebView,
+      "pdf-view": PDFView,
+      "chart": Chart
     },
 
       directives: {
@@ -243,8 +288,19 @@ export default {
 
     methods: {
 
-      changeBackgroundColor() {
+      setDashboard() {
+        console.log("Ran set Dashboard")
+        this.isShowingDashboard = true
+      },
 
+      activatePresentation() {
+        this.isShowingDashboard = false
+        this.selectedComponent = PDFView
+      },
+
+      activateWebView() {
+        this.isShowingDashboard = false
+        this.selectedComponent = WebView
       },
 
       closeUpdateInfo() {
@@ -336,6 +392,15 @@ export default {
   }
 }
 
+.item-chart{
+  background: var(--background-4);
+  grid-column: 10 / 13;
+  grid-row: 1 / 5;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  padding: 1rem;
+}
 
 * {
   margin: 0;
@@ -446,7 +511,6 @@ html {
   /* REGULAR GRID ITEM */
 
 .reg-grid-item {
-  background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
   opacity: .7;
   border-radius: 5px;
 
@@ -553,6 +617,23 @@ html {
   
 }
 
+/* Rows */
+
+.row-three-switches {
+  display: flex;
+  justify-content: space-around;
+  grid-column: 10 / 13;
+  grid-row: 5 / 7;
+  
+}
+
+.row-three-switches-bottom {
+  display: flex;
+  justify-content: space-around;
+  grid-column: 10 / 13;
+  grid-row: 7 / 9;
+  
+}
 
 /* INDIVIDUAL GRID ITEMS */
 
@@ -582,12 +663,17 @@ html {
 
 
 .item-4 {
-  grid-column: 10 / 13;
-  grid-row: 5 / 7;
-  border: 1px solid var(--background-4);
-  border-radius: 6px;
-  background-image: var(--background-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 80%;
+
   opacity: .7;
+  border-radius: 6px;
+}
+
+.item-4:not(:last-child) {
+  margin-right: 20px;
 }
 
 
@@ -595,8 +681,6 @@ html {
 
   grid-column: 10 / 13;
   grid-row: 7 / 9;
-  background-image: var(--background-8);
-  border: 1px solid var(--background-8);
   border-radius: 6px;
   opacity: .7;
 
@@ -608,7 +692,7 @@ html {
 
 .interactive{
   cursor: pointer;
-  transition: all .3s;
+  transition: transform .3s;
   user-select: none;
 }
 .interactive:hover{
@@ -625,6 +709,54 @@ html {
   font-size: 2.4rem;
   text-align: center;
   font-weight: 300;
+}
+
+  /* Backgrounds */
+
+.bg-pale-1{
+    background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
+}
+
+.bg-pale-2{
+  border: 1px solid var(--background-4);
+  background-image: var(--background-4);
+}
+
+.bg-pale-3{
+  background-image: var(--background-8);
+  border: 1px solid var(--background-8);
+}
+
+.bg-color-1{
+  background-color: #ff9800cb;
+  border: 1px solid #ff9800cb;
+}
+.bg-color-2{
+  background-color:#388e3ccb;
+  border: 1px solid #388e3ccb;
+}
+.bg-color-3{
+  background-color: #f44336cb;
+  border: 1px solid #f44336cb;
+}
+.bg-color-4{
+  background-color: #0d47a1cb;
+  border: 1px solid #0d47a1cb;
+}
+
+.bg-color-7{
+  background-color: #2c77e7cb;
+  border: 1px solid #2c77e7cb;
+}
+
+.bg-color-5{
+  background-color: #6A4C93cb;
+  border: 1px solid #6A4C93cb;
+}
+
+.bg-color-6{
+  background-color: #eeeb49cb;
+  border: 1px solid #eeeb49cb;
 }
 
 /* Notices */
@@ -666,7 +798,7 @@ html {
   justify-content: center;
 
   grid-row: 9 / 10;
-  grid-column: 1 / -1;
+  grid-column: 1 / 10;
   width: 100%;
 
   box-shadow: 0px 0px 20px 0px rgba(255, 255, 255, 0.25);
@@ -677,6 +809,29 @@ html {
   border: 1px solid white;
   border-radius: 5px;
   padding: 1rem;
+}
+
+.single-row-two-column{
+  grid-row: 9 / 10;
+  grid-column: 10 / -1;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-size: 2rem;
+  letter-spacing: .1px;
+  padding: 1rem;
+  border-radius: 6px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .7;
+}
+
+.alternative-containers {
+  position: relative;
+  z-index: 2;
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
 }
 
 </style>
