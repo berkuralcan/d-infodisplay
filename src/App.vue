@@ -295,11 +295,13 @@ export default {
       },
 
       activatePresentation() {
+        this.particlesShown = false
         this.isShowingDashboard = false
         this.selectedComponent = PDFView
       },
 
       activateWebView() {
+        this.particlesShown = false
         this.isShowingDashboard = false
         this.selectedComponent = WebView
       },
