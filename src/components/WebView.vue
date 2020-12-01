@@ -2,7 +2,7 @@
 
         <div class="web-view-container">
             <div class="transparent-container"></div>
-             <iframe src="http://www.dansuk.com.tr" frameborder="0" class="website"></iframe>
+             <iframe src="https://www.dansuk.com.tr" frameborder="0" class="website"></iframe>
         </div>
        
 </template>
