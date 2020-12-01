@@ -99,6 +99,7 @@
       </div>
 
       <chart class="item-chart" v-else></chart>
+
       
 
 
@@ -209,7 +210,7 @@ export default {
       isShowingDashboard: true,
       isColoredModeActive: false,
       selectedComponent: PDFView,
-      isChartActive: false,
+      isChartActive: true,
 
 
       bgColor: { 
@@ -394,10 +395,10 @@ export default {
 
 .item-chart{
   background: var(--background-4);
-  grid-column: 10 / 13;
+  grid-column: 10 / -1;
+  overflow: hidden;
   grid-row: 1 / 5;
   position: relative;
-  overflow: hidden;
   border-radius: 6px;
   padding: 1rem;
 }
