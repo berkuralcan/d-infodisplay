@@ -22,40 +22,34 @@ export default {
   methods: {
     pushData(data) {
       data = this.chartDataset.datasets[0].data
-
       try {
         data.push(this.newData)
-      let increasePercentage = Math.random()
-      let increasedAmount = this.newData * (increasePercentage * (Math.random() * 3)) / 100
-      this.newData += increasedAmount
+        let increasePercentage = Math.random()
+        let increasedAmount = this.newData * (increasePercentage * (Math.random() * 3)) / 100
+        this.newData += increasedAmount
       } catch(error) {
-        console.log(error)
+          console.log(error)
       } finally {
-              if(data.length > 7) {
-        console.log("Removing")
-            data.shift()
+          if(data.length > 7) {
+              console.log("Removing")
+          data.shift()
       }
-
-
       console.log("Ran")
       
       console.log(this.chartDataset.datasets[0].data)
     }
-      }
-
-      
-      
-
+    }
   },
 
   extends: Line,
   
   mounted() {
     this.renderChart(this.chartDataset, this.chartData.sampleChartData.options)
+    setInterval(this.pushData, 5000)
   },
 
   created() {
-      setInterval(this.pushData, 5000)
+      
   }
 }
 
