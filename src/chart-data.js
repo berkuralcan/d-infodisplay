@@ -6,7 +6,7 @@ export const chartData = {
           datasets: [
             { // one line graph
               label: "Dansuk Mühendislik - Proje Hacmi",
-              data: [],
+              data: [90],
     
                 // [11, 22, 33, 37, 42, 55, 70],
                 //borderColor to define the graph line.
