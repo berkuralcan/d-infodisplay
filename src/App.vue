@@ -212,7 +212,7 @@ export default {
       isShowingDashboard: true,
       isColoredModeActive: false,
       selectedComponent: PDFView,
-      isChartActive: false,
+      isChartActive: true,
 
 
       bgColor: { 
