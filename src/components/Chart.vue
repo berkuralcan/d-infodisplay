@@ -36,7 +36,7 @@ export default {
 
       console.log("Ran")
       
-      console.log(this.chartData.sampleChartData.datasets[0].data)
+      console.log(this.chartDataset.datasets[0].data)
     }
   },
   extends: Line,
