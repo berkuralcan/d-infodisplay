@@ -19,7 +19,7 @@ export default {
       }
     }
   },
-  methods: {
+/*   methods: {
     pushData(data) {
       data = this.chartDataset.datasets[0].data
       try {
@@ -39,17 +39,17 @@ export default {
       console.log(this.chartDataset.datasets[0].data)
     }
     }
-  },
+  }, */
 
   extends: Line,
   
   mounted() {
     this.renderChart(this.chartDataset, this.chartData.sampleChartData.options)
-    setInterval(this.pushData, 5000)
+    
   },
 
   created() {
-      
+      //setInterval(this.pushData, 5000)
   }
 }
 
