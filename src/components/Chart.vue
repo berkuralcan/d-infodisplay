@@ -6,7 +6,8 @@ import chartData from "../chart-data.js"
 export default {
   data() {
     return {
-      chartData,
+      chartData: chartData,
+      chartDataset: chartData.sampleChartData.data,
       newData: 100,
     }
   },
@@ -14,13 +15,13 @@ export default {
     chartData: {
       deep: true,
       handler() {
-        this.renderChart(chartData.sampleChartData.data, this.chartData.sampleChartData.options)
+        this.renderChart(this.chartDataset, this.chartData.sampleChartData.options)
       }
     }
   },
   methods: {
     pushData(data) {
-      data = this.chartData.sampleChartData.data.datasets[0].data
+      data = this.chartDataset.datasets[0].data
 
       data.push(this.newData)
       let increasePercentage = Math.random()
@@ -35,13 +36,13 @@ export default {
 
       console.log("Ran")
       
-      console.log(this.chartData.sampleChartData.data.datasets[0].data)
+      console.log(this.chartData.sampleChartData.datasets[0].data)
     }
   },
   extends: Line,
   
   mounted() {
-    this.renderChart(this.chartData.sampleChartData.data, this.chartData.sampleChartData.options)
+    this.renderChart(this.chartDataset, this.chartData.sampleChartData.options)
   },
 
   created() {
