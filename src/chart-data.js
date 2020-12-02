@@ -42,6 +42,7 @@ export const chartData = {
           scales: {
             yAxes: [{
               ticks: {
+                fontColor: "#d3f0ed",
                 beginAtZero: false,
                 suggestedMin: 70,
                 suggestedMax: 130,

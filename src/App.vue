@@ -98,7 +98,9 @@
             <div class="reg-grid-item__explanation"> {{stats.box2.explanation}} </div>
       </div>
 
-      <chart class="item-chart" v-else></chart>
+      <chart class="item-chart" 
+      :class="isColoredModeActive ? 'bg-color-4' : 'bg-pale-2'"
+      v-else></chart>
 
       
 
@@ -396,7 +398,6 @@ export default {
 }
 
 .item-chart{
-  background: var(--background-4);
   grid-column: 10 / -1;
   overflow: hidden;
   grid-row: 1 / 5;
