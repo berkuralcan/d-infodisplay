@@ -23,12 +23,15 @@ export default {
     pushData(data) {
       data = this.chartDataset.datasets[0].data
 
-      data.push(this.newData)
+      try {
+        data.push(this.newData)
       let increasePercentage = Math.random()
       let increasedAmount = this.newData * (increasePercentage * (Math.random() * 3)) / 100
       this.newData += increasedAmount
-      
-      if(data.length > 7) {
+      } catch(error) {
+        console.log(error)
+      } finally {
+              if(data.length > 7) {
         console.log("Removing")
             data.shift()
       }
@@ -38,7 +41,13 @@ export default {
       
       console.log(this.chartDataset.datasets[0].data)
     }
+      }
+
+      
+      
+
   },
+
   extends: Line,
   
   mounted() {
