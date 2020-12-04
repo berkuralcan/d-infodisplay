@@ -165,13 +165,11 @@
       </div>
       
       <div class="wip-explanation">
-        Bu kısım şu anda bilinçli olarak boş. Burası ekran boyutuna göre üst kısımla eş olarak boş kalabilir veya yine ekran boyutuna göre burada da modüller kullanılabilir.
+        Engineering for a better tommorrow.
       </div>
 
-      <div class="single-row-two-column interactive"
-      :class="isColoredModeActive ? 'bg-color-4' : 'bg-pale-3'"
-      @click="isChartActive = !isChartActive">
-        Grafik (wip)
+      <div class="single-row-two-column interactive">
+        <img src="./assets/dansuk-logo-white.png" alt="logo" class="company-logo">
       </div>
       
       <transition
@@ -212,7 +210,7 @@ export default {
       isShowingDashboard: true,
       isColoredModeActive: false,
       selectedComponent: PDFView,
-      isChartActive: false,
+      isChartActive: true,
 
 
       bgColor: { 
@@ -799,25 +797,29 @@ html {
 .wip-explanation{
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 
   grid-row: 9 / 10;
-  grid-column: 1 / 10;
+  grid-column: 7 / -1;
   width: 100%;
+  text-decoration: italic;
 
-  box-shadow: 0px 0px 20px 0px rgba(255, 255, 255, 0.25);
   color: white;
   font-family: "Inter", Arial, Helvetica, sans-serif;
-  font-size: 2rem;
+  font-size: 3.5rem; 
   letter-spacing: 0.1px;
-  border: 1px solid white;
-  border-radius: 5px;
-  padding: 1rem;
+  font-style: italic;
+  opacity: 0.7;
+  
+}
+
+.company-logo {
+  width: 20rem;
 }
 
 .single-row-two-column{
-  grid-row: 9 / 10;
-  grid-column: 10 / -1;
+  grid-row: 9 / span 1;
+  grid-column: 1 / 3;
   font-family: "Inter", Arial, Helvetica, sans-serif;
   font-size: 2rem;
   letter-spacing: .1px;
@@ -826,7 +828,7 @@ html {
   color: white;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   opacity: .7;
 }
 
