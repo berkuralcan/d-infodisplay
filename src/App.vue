@@ -61,7 +61,7 @@
 
 
       <div class="world-map" :class="{'world-map-overriden': selectedBackground == 2 || selectedBackground == 3}">
-              <img class="world-map__map" src="./assets/map.png" alt="">
+              <img class="world-map__map" @click="changeMap" src="./assets/map-4.png" alt="">
       </div>
 
 
@@ -211,6 +211,7 @@ export default {
       isColoredModeActive: false,
       selectedComponent: PDFView,
       isChartActive: true,
+      mapSrc: "./assets/map-1.png",
 
 
       bgColor: { 
@@ -304,6 +305,10 @@ export default {
         this.particlesShown = false
         this.isShowingDashboard = false
         this.selectedComponent = WebView
+      },
+
+      changeMap() {
+        this.mapSrc = "./assets/map-2.png"
       },
 
       closeUpdateInfo() {
